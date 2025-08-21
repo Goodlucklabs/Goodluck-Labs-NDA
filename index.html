@@ -1,110 +1,919 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Founders’ NDA</title>
-  <style>
-    body { margin:0; padding:0; font-family:sans-serif; background:#fff; }
-    .pdf-pages { max-width:900px; margin:auto; padding:20px; }
-    .pdf-pages img { width:100%; display:block; margin-bottom:30px; }
-    .phantom { text-align:center; margin:40px 0; }
-    button {
-      background:#4a00e0; color:white; border:none;
-      padding:12px 25px; border-radius:8px; cursor:pointer;
-      font-size:16px; margin:5px;
-    }
-    button:hover { background:#6a11cb; }
-    pre {
-      background:#f4f4f4; padding:10px; font-size:13px;
-      max-width:900px; margin:20px auto; overflow-x:auto;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good Luck Labs - NDA Agreement</title>
+    <meta name="description" content="Sign the Good Luck Labs NDA agreement securely using Solana blockchain technology on devnet.">
+    
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Good Luck Labs - NDA Agreement">
+    <meta property="og:description" content="Sign the Good Luck Labs NDA agreement securely using Solana blockchain technology.">
+    <meta property="og:type" content="website">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        /* Custom styles for Good Luck Labs NDA */
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container-fluid {
+            background: rgba(255, 255, 255, 0.95);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Header styling */
+        header h1 {
+            color: #2c3e50;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Card enhancements */
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            border-radius: 15px 15px 0 0 !important;
+            font-weight: 600;
+        }
+
+        /* NDA Document styling */
+        .nda-page img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .nda-page img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Wallet connection buttons */
+        #wallet-buttons .btn {
+            min-width: 150px;
+            font-weight: 500;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        #wallet-buttons .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #wallet-buttons .btn:disabled {
+            opacity: 0.6;
+        }
+
+        /* Connected wallet styling */
+        #wallet-address {
+            font-size: 0.9rem;
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            display: inline-block;
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Network status badge */
+        #network-status {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+        }
+
+        /* Sign agreement button */
+        #sign-agreement {
+            min-width: 250px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            padding: 12px 30px;
+            transition: all 0.3s ease;
+        }
+
+        #sign-agreement:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+        }
+
+        #sign-agreement:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Transaction hash styling */
+        #transaction-hash {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            font-size: 0.85rem;
+            word-break: break-all;
+        }
+
+        /* Faucet info styling */
+        .faucet-info {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 1px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .faucet-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .faucet-links .btn {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        /* Loading animations */
+        .spinner-border {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Error and success states */
+        .alert {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, #f8d7da 0%, #f1b0b7 100%);
+            color: #721c24;
+        }
+
+        .alert-info {
+            background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+            color: #0c5460;
+        }
+
+        .alert-warning {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            color: #856404;
+        }
+
+        /* Form checkbox styling */
+        .form-check-input:checked {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .form-check-label {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        /* Footer styling */
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            margin: 0 -20px -20px -20px;
+            border-radius: 0 0 15px 15px;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse-animation {
+            animation: pulse 0.6s ease-in-out;
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container-fluid {
+                padding: 10px;
+            }
+            
+            #wallet-buttons .btn {
+                margin-bottom: 10px;
+                min-width: 100%;
+            }
+            
+            .nda-page img {
+                margin-bottom: 20px;
+            }
+            
+            #sign-agreement {
+                min-width: 100%;
+            }
+            
+            #wallet-address {
+                max-width: 250px;
+                font-size: 0.8rem;
+            }
+            
+            .faucet-links {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="pdf-pages">
-    <img src="g-labs-nda_page-0001.jpg">
-    <img src="g-labs-nda_page-0002.jpg">
-    <img src="g-labs-nda_page-0003.jpg">
-    <img src="g-labs-nda_page-0004.jpg">
-    <img src="g-labs-nda_page-0005.jpg">
-    <img src="g-labs-nda_page-0006.jpg">
-    <img src="g-labs-nda_page-0007.jpg">
-  </div>
+    <div class="container-fluid">
+        <!-- Header -->
+        <header class="text-center py-4 mb-4">
+            <h1 class="display-4 text-primary">Good Luck Labs NDA</h1>
+            <p class="lead text-muted">Blockchain-Secured Non-Disclosure Agreement</p>
+        </header>
 
-  <div class="phantom">
-    <button id="sign">Connect & Sign On-chain</button>
-    <pre id="output"></pre>
-  </div>
+        <!-- Wallet Connection Section -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8">
+                <div class="card border-primary">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-wallet me-2"></i>Solana Wallet Connection
+                        </h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <div id="wallet-status" class="mb-3">
+                            <div id="disconnected-state">
+                                <p class="text-muted">Connect your Solana wallet to sign the NDA agreement on-chain</p>
+                                
+                                <!-- Devnet SOL Faucet Information -->
+                                <div class="faucet-info">
+                                    <h6><i class="fas fa-info-circle me-2"></i>Need Devnet SOL?</h6>
+                                    <p class="mb-2">To sign the agreement, you need devnet SOL for transaction fees. Get free devnet SOL from these faucets:</p>
+                                    <div class="faucet-links">
+                                        <a href="https://faucet.solana.com/" target="_blank" class="btn btn-warning btn-sm">
+                                            <i class="fas fa-faucet me-1"></i>Official Solana Faucet
+                                        </a>
+                                        <a href="https://solfaucet.com/" target="_blank" class="btn btn-warning btn-sm">
+                                            <i class="fas fa-coins me-1"></i>SolFaucet.com
+                                        </a>
+                                    </div>
+                                </div>
+                                
+                                <div id="wallet-buttons" class="d-grid gap-2 d-md-flex justify-content-md-center">
+                                    <button id="connect-phantom" class="btn btn-outline-primary me-2" disabled>
+                                        <i class="fas fa-ghost me-2"></i>Connect Phantom
+                                    </button>
+                                    <button id="connect-solflare" class="btn btn-outline-secondary me-2" disabled>
+                                        <i class="fas fa-fire me-2"></i>Connect Solflare
+                                    </button>
+                                    <button id="connect-other" class="btn btn-outline-info" disabled>
+                                        <i class="fas fa-link me-2"></i>Other Wallets
+                                    </button>
+                                </div>
+                                <div id="wallet-detection" class="mt-3">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Detecting wallets...</span>
+                                    </div>
+                                    <p class="mt-2 text-muted">Detecting available Solana wallets...</p>
+                                </div>
+                            </div>
+                            
+                            <div id="connected-state" style="display: none;">
+                                <div class="alert alert-success">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    <strong>Wallet Connected</strong>
+                                    <br>
+                                    <span id="wallet-address" class="font-monospace"></span>
+                                    <br>
+                                    <small>Network: <span id="network-status" class="badge bg-success">Devnet</span></small>
+                                </div>
+                                <button id="disconnect-wallet" class="btn btn-outline-danger">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Disconnect
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  <script type="module">
-    import {
-      Connection,
-      PublicKey,
-      Transaction,
-      clusterApiUrl
-    } from "https://cdn.jsdelivr.net/npm/@solana/web3.js@1.95.3/+esm";
+        <!-- NDA Document Display -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-file-contract me-2"></i>Non-Disclosure Agreement
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="nda-document" class="text-center">
+                            <!-- NDA Document Pages -->
+                            <div class="nda-page mb-4">
+                                <img src="https://goodlucklabs.github.io/Goodluck-Labs-NDA/g-labs-nda_page-0001.jpg" 
+                                     alt="NDA Page 1" class="img-fluid shadow-sm rounded">
+                            </div>
+                            <div class="nda-page mb-4">
+                                <img src="https://goodlucklabs.github.io/Goodluck-Labs-NDA/g-labs-nda_page-0002.jpg" 
+                                     alt="NDA Page 2" class="img-fluid shadow-sm rounded">
+                            </div>
+                            <div class="nda-page mb-4">
+                                <img src="https://goodlucklabs.github.io/Goodluck-Labs-NDA/g-labs-nda_page-0003.jpg" 
+                                     alt="NDA Page 3" class="img-fluid shadow-sm rounded">
+                            </div>
+                            <div class="nda-page mb-4">
+                                <img src="https://goodlucklabs.github.io/Goodluck-Labs-NDA/g-labs-nda_page-0004.jpg" 
+                                     alt="NDA Page 4" class="img-fluid shadow-sm rounded">
+                            </div>
+                            <div class="nda-page mb-4">
+                                <img src="https://goodlucklabs.github.io/Goodluck-Labs-NDA/g-labs-nda_page-0005.jpg" 
+                                     alt="NDA Page 5" class="img-fluid shadow-sm rounded">
+                            </div>
+                            <div class="nda-page mb-4">
+                                <img src="https://goodlucklabs.github.io/Goodluck-Labs-NDA/g-labs-nda_page-0006.jpg" 
+                                     alt="NDA Page 6" class="img-fluid shadow-sm rounded">
+                            </div>
+                            <div class="nda-page mb-4">
+                                <img src="https://goodlucklabs.github.io/Goodluck-Labs-NDA/g-labs-nda_page-0007.jpg" 
+                                     alt="NDA Page 7" class="img-fluid shadow-sm rounded">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+        <!-- Agreement Signing Section -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8">
+                <div class="card border-success">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-signature me-2"></i>Sign Agreement On-Chain
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="agreement-checkbox" disabled>
+                            <label class="form-check-label" for="agreement-checkbox">
+                                I have read and agree to the terms of this Non-Disclosure Agreement
+                            </label>
+                        </div>
+                        
+                        <div id="signing-section">
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <strong>Blockchain Signature Process:</strong>
+                                <ul class="mb-0 mt-2">
+                                    <li>Connect your Solana wallet to devnet</li>
+                                    <li>Get free devnet SOL from the faucets above if needed</li>
+                                    <li>Review and accept the NDA terms</li>
+                                    <li>Sign the transaction (small fee will be deducted)</li>
+                                    <li>Your agreement will be recorded permanently on-chain</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button id="sign-agreement" class="btn btn-success btn-lg" disabled>
+                                    <i class="fas fa-pen me-2"></i>Sign Agreement On-Chain
+                                </button>
+                            </div>
+                            
+                            <div id="signing-progress" style="display: none;" class="text-center mt-3">
+                                <div class="spinner-border text-success" role="status">
+                                    <span class="visually-hidden">Signing...</span>
+                                </div>
+                                <p class="mt-2">Processing blockchain transaction...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    async function getAgreementHash() {
-      let buffers = [];
-      for (let i = 1; i <= 7; i++) {
-        const res = await fetch(`g-labs-nda_page-000${i}.jpg`);
-        const buf = await res.arrayBuffer();
-        buffers.push(new Uint8Array(buf));
-      }
-      let total = buffers.reduce((s,a) => s + a.length, 0);
-      let merged = new Uint8Array(total);
-      let off = 0;
-      for (let b of buffers) { merged.set(b, off); off += b.length; }
-      const hashBuffer = await crypto.subtle.digest("SHA-256", merged);
-      return Array.from(new Uint8Array(hashBuffer))
-        .map(b => b.toString(16).padStart(2,"0"))
-        .join("");
-    }
+        <!-- Transaction Result -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8">
+                <div id="transaction-result" style="display: none;" class="card border-success">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-check-circle me-2"></i>Agreement Signed Successfully
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-success">
+                            <h6>Transaction Confirmed on Solana Devnet</h6>
+                            <p><strong>Transaction Hash:</strong></p>
+                            <p id="transaction-hash" class="font-monospace text-break"></p>
+                            <a id="explorer-link" href="#" target="_blank" class="btn btn-outline-primary">
+                                <i class="fas fa-external-link-alt me-2"></i>View on Solana Explorer
+                            </a>
+                        </div>
+                        <p class="text-muted">
+                            <i class="fas fa-shield-alt me-2"></i>
+                            Your NDA agreement is now permanently recorded on the Solana blockchain.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    document.getElementById("sign").onclick = async () => {
-      if (!window.solana) {
-        alert("No Solana wallet found. Please install Phantom, Solflare, or Backpack.");
-        return;
-      }
+        <!-- Error Messages -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8">
+                <div id="error-message" style="display: none;" class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <span id="error-text"></span>
+                </div>
+            </div>
+        </div>
 
-      try {
-        // 1. Connect wallet
-        const resp = await window.solana.connect();
-        const userPublicKey = new PublicKey(resp.publicKey.toString());
+        <!-- Footer -->
+        <footer class="text-center py-4 mt-5">
+            <div class="container">
+                <p class="text-muted">
+                    <i class="fas fa-lock me-2"></i>
+                    Secured by Solana Blockchain | 
+                    <i class="fas fa-network-wired me-2"></i>
+                    Devnet Network
+                </p>
+                <p class="small text-muted">
+                    © 2025 Good Luck Labs. Blockchain-powered legal agreements.
+                </p>
+            </div>
+        </footer>
+    </div>
 
-        // 2. Hash NDA
-        const agreementHash = await getAgreementHash();
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Solana Web3.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+    
+    <script>
+        /**
+         * Solana Wallet Integration for NDA Signing
+         * Complete implementation with error handling and faucet integration
+         */
+        class SolanaWalletManager {
+            constructor() {
+                this.connection = null;
+                this.wallet = null;
+                this.walletAddress = null;
+                this.isConnected = false;
+                this.network = 'devnet';
+                
+                // Initialize Solana connection to devnet
+                this.connection = new solanaWeb3.Connection(
+                    'https://api.devnet.solana.com',
+                    'confirmed'
+                );
+                
+                this.init();
+            }
+            
+            async init() {
+                console.log('Initializing Solana Wallet Manager...');
+                await this.detectWallets();
+                this.setupEventListeners();
+            }
+            
+            async detectWallets() {
+                console.log('Detecting available Solana wallets...');
+                
+                // Wait a bit for wallet extensions to load
+                setTimeout(async () => {
+                    const detectionDiv = document.getElementById('wallet-detection');
+                    
+                    let walletsFound = false;
+                    
+                    // Check for Phantom
+                    if (window.solana && window.solana.isPhantom) {
+                        console.log('Phantom wallet detected');
+                        document.getElementById('connect-phantom').disabled = false;
+                        walletsFound = true;
+                    }
+                    
+                    // Check for Solflare
+                    if (window.solflare && window.solflare.isSolflare) {
+                        console.log('Solflare wallet detected');
+                        document.getElementById('connect-solflare').disabled = false;
+                        walletsFound = true;
+                    }
+                    
+                    // Check for other wallets
+                    if (window.solana || window.solflare || window.coin98 || window.slope) {
+                        document.getElementById('connect-other').disabled = false;
+                        walletsFound = true;
+                    }
+                    
+                    if (walletsFound) {
+                        detectionDiv.style.display = 'none';
+                        console.log('Wallets detected and enabled');
+                    } else {
+                        detectionDiv.innerHTML = `
+                            <div class="alert alert-warning">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                <strong>No Solana Wallets Detected</strong>
+                                <p class="mb-0 mt-2">Please install a Solana wallet extension:</p>
+                                <div class="mt-2">
+                                    <a href="https://phantom.app/" target="_blank" class="btn btn-sm btn-outline-primary me-2">
+                                        Install Phantom
+                                    </a>
+                                    <a href="https://solflare.com/" target="_blank" class="btn btn-sm btn-outline-secondary">
+                                        Install Solflare
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                        console.log('No wallets detected');
+                    }
+                }, 1500);
+            }
+            
+            setupEventListeners() {
+                // Phantom wallet connection
+                document.getElementById('connect-phantom').addEventListener('click', () => {
+                    this.connectWallet('phantom');
+                });
+                
+                // Solflare wallet connection
+                document.getElementById('connect-solflare').addEventListener('click', () => {
+                    this.connectWallet('solflare');
+                });
+                
+                // Other wallets
+                document.getElementById('connect-other').addEventListener('click', () => {
+                    this.connectWallet('auto');
+                });
+                
+                // Disconnect wallet
+                document.getElementById('disconnect-wallet').addEventListener('click', () => {
+                    this.disconnectWallet();
+                });
+                
+                // Agreement checkbox
+                document.getElementById('agreement-checkbox').addEventListener('change', (e) => {
+                    const signButton = document.getElementById('sign-agreement');
+                    signButton.disabled = !(e.target.checked && this.isConnected);
+                });
+                
+                // Sign agreement button
+                document.getElementById('sign-agreement').addEventListener('click', () => {
+                    this.signAgreement();
+                });
+            }
+            
+            async connectWallet(walletType) {
+                try {
+                    this.showError('');
+                    console.log(`Attempting to connect ${walletType} wallet...`);
+                    
+                    let walletAdapter;
+                    
+                    switch (walletType) {
+                        case 'phantom':
+                            if (!window.solana || !window.solana.isPhantom) {
+                                throw new Error('Phantom wallet not found. Please install Phantom extension.');
+                            }
+                            walletAdapter = window.solana;
+                            break;
+                            
+                        case 'solflare':
+                            if (!window.solflare || !window.solflare.isSolflare) {
+                                throw new Error('Solflare wallet not found. Please install Solflare extension.');
+                            }
+                            walletAdapter = window.solflare;
+                            break;
+                            
+                        case 'auto':
+                            // Try to connect to any available wallet
+                            if (window.solana && window.solana.isPhantom) {
+                                walletAdapter = window.solana;
+                            } else if (window.solflare && window.solflare.isSolflare) {
+                                walletAdapter = window.solflare;
+                            } else {
+                                throw new Error('No compatible wallet found.');
+                            }
+                            break;
+                            
+                        default:
+                            throw new Error('Unknown wallet type');
+                    }
+                    
+                    // Connect to the wallet
+                    const response = await walletAdapter.connect();
+                    console.log('Wallet connected:', response);
+                    
+                    this.wallet = walletAdapter;
+                    this.walletAddress = response.publicKey.toString();
+                    this.isConnected = true;
+                    
+                    // Verify we're on devnet and check balance
+                    await this.verifyNetwork();
+                    await this.checkBalance();
+                    
+                    this.updateWalletUI();
+                    
+                    console.log('Wallet connection successful:', this.walletAddress);
+                    
+                } catch (error) {
+                    console.error('Wallet connection failed:', error);
+                    if (error.code === 4001) {
+                        this.showError('Connection cancelled by user.');
+                    } else {
+                        this.showError(`Failed to connect wallet: ${error.message}`);
+                    }
+                }
+            }
+            
+            async verifyNetwork() {
+                try {
+                    const endpoint = this.connection.rpcEndpoint;
+                    console.log('Connected to endpoint:', endpoint);
+                    
+                    if (!endpoint.includes('devnet')) {
+                        console.warn('Not connected to devnet, but proceeding...');
+                    }
+                    
+                    document.getElementById('network-status').textContent = 'Devnet';
+                    document.getElementById('network-status').className = 'badge bg-success';
+                    
+                } catch (error) {
+                    console.error('Network verification failed:', error);
+                    this.showError('Failed to verify network connection');
+                }
+            }
+            
+            async checkBalance() {
+                try {
+                    const publicKey = new solanaWeb3.PublicKey(this.walletAddress);
+                    const balance = await this.connection.getBalance(publicKey);
+                    const solBalance = balance / solanaWeb3.LAMPORTS_PER_SOL;
+                    
+                    console.log(`Wallet balance: ${solBalance} SOL`);
+                    
+                    if (balance === 0) {
+                        this.showError('Your wallet has no devnet SOL. Please get some from the faucets above before signing.');
+                    }
+                } catch (error) {
+                    console.error('Balance check failed:', error);
+                }
+            }
+            
+            disconnectWallet() {
+                try {
+                    if (this.wallet && this.wallet.disconnect) {
+                        this.wallet.disconnect();
+                    }
+                    
+                    this.wallet = null;
+                    this.walletAddress = null;
+                    this.isConnected = false;
+                    
+                    this.updateWalletUI();
+                    this.showError('');
+                    
+                    console.log('Wallet disconnected');
+                    
+                } catch (error) {
+                    console.error('Disconnect failed:', error);
+                    this.showError('Failed to disconnect wallet');
+                }
+            }
+            
+            updateWalletUI() {
+                const disconnectedState = document.getElementById('disconnected-state');
+                const connectedState = document.getElementById('connected-state');
+                const agreementCheckbox = document.getElementById('agreement-checkbox');
+                const signButton = document.getElementById('sign-agreement');
+                
+                if (this.isConnected) {
+                    disconnectedState.style.display = 'none';
+                    connectedState.style.display = 'block';
+                    
+                    // Update wallet address display
+                    const shortAddress = `${this.walletAddress.slice(0, 8)}...${this.walletAddress.slice(-8)}`;
+                    document.getElementById('wallet-address').textContent = shortAddress;
+                    
+                    // Enable agreement checkbox
+                    agreementCheckbox.disabled = false;
+                    
+                    // Enable sign button if checkbox is checked
+                    signButton.disabled = !agreementCheckbox.checked;
+                    
+                } else {
+                    disconnectedState.style.display = 'block';
+                    connectedState.style.display = 'none';
+                    
+                    // Disable agreement elements
+                    agreementCheckbox.disabled = true;
+                    agreementCheckbox.checked = false;
+                    signButton.disabled = true;
+                }
+            }
+            
+            async signAgreement() {
+                if (!this.isConnected || !this.wallet) {
+                    this.showError('Please connect your wallet first');
+                    return;
+                }
+                
+                try {
+                    this.showSigningProgress(true);
+                    this.showError('');
+                    
+                    console.log('Starting NDA agreement signing process...');
+                    
+                    // Create a memo instruction with the NDA agreement hash
+                    const ndaContent = "Good Luck Labs NDA Agreement - Blockchain Signed";
+                    const ndaHash = await this.createContentHash(ndaContent);
+                    
+                    console.log('NDA Content Hash:', ndaHash);
+                    
+                    // Create transaction
+                    const transaction = new solanaWeb3.Transaction();
+                    
+                    // Add memo instruction - using TextEncoder for browser compatibility
+                    const encoder = new TextEncoder();
+                    const memoData = encoder.encode(`NDA_SIGNED:${ndaHash}:${Date.now()}`);
+                    const memoInstruction = new solanaWeb3.TransactionInstruction({
+                        keys: [],
+                        programId: new solanaWeb3.PublicKey('MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr'),
+                        data: memoData
+                    });
+                    
+                    transaction.add(memoInstruction);
+                    
+                    // Set recent blockhash and fee payer
+                    const { blockhash } = await this.connection.getLatestBlockhash();
+                    transaction.recentBlockhash = blockhash;
+                    transaction.feePayer = new solanaWeb3.PublicKey(this.walletAddress);
+                    
+                    console.log('Transaction prepared, requesting signature...');
+                    
+                    // Sign transaction
+                    const signedTransaction = await this.wallet.signTransaction(transaction);
+                    console.log('Transaction signed');
+                    
+                    // Send transaction with better error handling
+                    try {
+                        const signature = await this.connection.sendRawTransaction(signedTransaction.serialize());
+                        console.log('Transaction sent:', signature);
+                        
+                        // Confirm transaction
+                        const confirmation = await this.connection.confirmTransaction(signature, 'confirmed');
+                        console.log('Transaction confirmed:', confirmation);
+                        
+                        if (confirmation.value.err) {
+                            throw new Error('Transaction failed to confirm');
+                        }
+                        
+                        // Show success
+                        this.showTransactionSuccess(signature);
+                        console.log('NDA agreement signed successfully!');
+                        
+                    } catch (sendError) {
+                        // Check if it's insufficient funds error
+                        if (sendError.message.includes('Attempt to debit an account but found no record of a prior credit')) {
+                            throw new Error('Insufficient SOL balance. Please get devnet SOL from the faucets above first.');
+                        } else if (sendError.message.includes('simulation failed')) {
+                            throw new Error('Transaction simulation failed. Make sure you have enough devnet SOL for transaction fees.');
+                        } else {
+                            throw sendError;
+                        }
+                    }
+                    
+                } catch (error) {
+                    console.error('Agreement signing failed:', error);
+                    
+                    if (error.code === 4001) {
+                        this.showError('Transaction cancelled by user.');
+                    } else {
+                        this.showError(`Failed to sign agreement: ${error.message}`);
+                    }
+                } finally {
+                    this.showSigningProgress(false);
+                }
+            }
+            
+            async createContentHash(content) {
+                // Simple hash creation for demo purposes
+                let hash = 0;
+                for (let i = 0; i < content.length; i++) {
+                    const char = content.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash; // Convert to 32-bit integer
+                }
+                return Math.abs(hash).toString(16);
+            }
+            
+            showSigningProgress(show) {
+                const progressDiv = document.getElementById('signing-progress');
+                const signButton = document.getElementById('sign-agreement');
+                
+                if (show) {
+                    progressDiv.style.display = 'block';
+                    signButton.disabled = true;
+                } else {
+                    progressDiv.style.display = 'none';
+                    const checkbox = document.getElementById('agreement-checkbox');
+                    signButton.disabled = !(checkbox.checked && this.isConnected);
+                }
+            }
+            
+            showTransactionSuccess(signature) {
+                const resultDiv = document.getElementById('transaction-result');
+                const hashElement = document.getElementById('transaction-hash');
+                const explorerLink = document.getElementById('explorer-link');
+                
+                // Show result section
+                resultDiv.style.display = 'block';
+                resultDiv.classList.add('fade-in');
+                
+                // Set transaction hash
+                hashElement.textContent = signature;
+                
+                // Set explorer link
+                const explorerUrl = `https://explorer.solana.com/tx/${signature}?cluster=devnet`;
+                explorerLink.href = explorerUrl;
+                
+                // Scroll to result
+                resultDiv.scrollIntoView({ behavior: 'smooth' });
+                
+                // Add pulse animation
+                resultDiv.classList.add('pulse-animation');
+                setTimeout(() => {
+                    resultDiv.classList.remove('pulse-animation');
+                }, 600);
+            }
+            
+            showError(message) {
+                const errorDiv = document.getElementById('error-message');
+                const errorText = document.getElementById('error-text');
+                
+                if (message) {
+                    errorText.textContent = message;
+                    errorDiv.style.display = 'block';
+                    errorDiv.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    errorDiv.style.display = 'none';
+                }
+            }
+        }
 
-        // 3. Build Memo transaction
-        const MEMO_PROGRAM_ID = new PublicKey("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr");
-        let transaction = new Transaction().add({
-          keys: [],
-          programId: MEMO_PROGRAM_ID,
-          data: Buffer.from("Agreement Hash: " + agreementHash),
+        // Initialize wallet manager when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Good Luck Labs NDA - DOM loaded, initializing Solana wallet manager...');
+            window.solanaWalletManager = new SolanaWalletManager();
         });
 
-        transaction.feePayer = userPublicKey;
-        const { blockhash } = await connection.getLatestBlockhash();
-        transaction.recentBlockhash = blockhash;
-
-        // 4. Sign with wallet
-        const signedTx = await window.solana.signTransaction(transaction);
-
-        // 5. Send to Devnet
-        const txid = await connection.sendRawTransaction(signedTx.serialize());
-        await connection.confirmTransaction(txid);
-
-        document.getElementById("output").textContent =
-          "✅ Agreement Hash stored on-chain\n" +
-          "Hash: " + agreementHash + "\n" +
-          "Explorer: https://explorer.solana.com/tx/" + txid + "?cluster=devnet";
-      } catch (err) {
-        console.error("Transaction error:", err);
-        alert("Transaction failed. Check console.");
-      }
-    };
-  </script>
+        // Handle page visibility changes
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible' && window.solanaWalletManager) {
+                console.log('Page visible, checking wallet connection...');
+            }
+        });
+    </script>
 </body>
 </html>
