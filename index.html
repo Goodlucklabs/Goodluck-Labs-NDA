@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Founders’ NDA</title>
+  <style>
+    body { margin:0; padding:0; font-family:sans-serif; background:#fff; }
+    .pdf-pages { max-width:900px; margin:auto; padding:20px; }
+    .pdf-pages img { width:100%; display:block; margin-bottom:30px; }
+    .phantom { text-align:center; margin:40px 0; }
+    button {
+      background:#4a00e0; color:white; border:none;
+      padding:12px 25px; border-radius:8px; cursor:pointer;
+      font-size:16px; margin:5px;
+    }
+    button:hover { background:#6a11cb; }
+    pre {
+      background:#f4f4f4; padding:10px; font-size:13px;
+      max-width:900px; margin:20px auto; overflow-x:auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="pdf-pages">
+    <img src="g-labs-nda_page-0001.jpg">
+    <img src="g-labs-nda_page-0002.jpg">
+    <img src="g-labs-nda_page-0003.jpg">
+    <img src="g-labs-nda_page-0004.jpg">
+    <img src="g-labs-nda_page-0005.jpg">
+    <img src="g-labs-nda_page-0006.jpg">
+    <img src="g-labs-nda_page-0007.jpg">
+  </div>
+
+  <div class="phantom">
+    <button id="sign">Connect & Sign On-chain</button>
+    <pre id="output"></pre>
+  </div>
+
+  <script type="module">
+    import {
+      Connection,
+      PublicKey,
+      Transaction,
+      clusterApiUrl
+    } from "https://cdn.jsdelivr.net/npm/@solana/web3.js@1.95.3/+esm";
+
+    const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+
+    async function getAgreementHash() {
+      let buffers = [];
+      for (let i = 1; i <= 7; i++) {
+        const res = await fetch(`g-labs-nda_page-000${i}.jpg`);
+        const buf = await res.arrayBuffer();
+        buffers.push(new Uint8Array(buf));
+      }
+      let total = buffers.reduce((s,a) => s + a.length, 0);
+      let merged = new Uint8Array(total);
+      let off = 0;
+      for (let b of buffers) { merged.set(b, off); off += b.length; }
+      const hashBuffer = await crypto.subtle.digest("SHA-256", merged);
+      return Array.from(new Uint8Array(hashBuffer))
+        .map(b => b.toString(16).padStart(2,"0"))
+        .join("");
+    }
+
+    document.getElementById("sign").onclick = async () => {
+      if (!window.solana) {
+        alert("No Solana wallet found. Please install Phantom, Solflare, or Backpack.");
+        return;
+      }
+
+      try {
+        // 1. Connect wallet
+        const resp = await window.solana.connect();
+        const userPublicKey = new PublicKey(resp.publicKey.toString());
+
+        // 2. Hash NDA
+        const agreementHash = await getAgreementHash();
+
+        // 3. Build Memo transaction
+        const MEMO_PROGRAM_ID = new PublicKey("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr");
+        let transaction = new Transaction().add({
+          keys: [],
+          programId: MEMO_PROGRAM_ID,
+          data: Buffer.from("Agreement Hash: " + agreementHash),
+        });
+
+        transaction.feePayer = userPublicKey;
+        const { blockhash } = await connection.getLatestBlockhash();
+        transaction.recentBlockhash = blockhash;
+
+        // 4. Sign with wallet
+        const signedTx = await window.solana.signTransaction(transaction);
+
+        // 5. Send to Devnet
+        const txid = await connection.sendRawTransaction(signedTx.serialize());
+        await connection.confirmTransaction(txid);
+
+        document.getElementById("output").textContent =
+          "✅ Agreement Hash stored on-chain\n" +
+          "Hash: " + agreementHash + "\n" +
+          "Explorer: https://explorer.solana.com/tx/" + txid + "?cluster=devnet";
+      } catch (err) {
+        console.error("Transaction error:", err);
+        alert("Transaction failed. Check console.");
+      }
+    };
+  </script>
+</body>
+</html>
